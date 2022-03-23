@@ -20,8 +20,7 @@ if __name__ == '__main__':
     main()
     
     
-#@st.cache(persist=True)
-
+@st.cache(persist=True)
 def load_data():
         data = pd.read_csv('mushrooms.csv')
         label = LabelEncoder()
@@ -34,7 +33,7 @@ class_names = ['edible', 'poisonous']
 
 x_train, x_test, y_train, y_test = split(df)
 
-#       @st.cache(persist=True)
+@st.cache(persist=True)
 def split(df):
         y = df.type
         x = df.drop(columns =['type'])

@@ -20,21 +20,22 @@ if __name__ == '__main__':
     main()
     
     
-       @st.cache(persist=True)
-    def load_data():
+#@st.cache(persist=True)
+
+def load_data():
         data = pd.read_csv('mushrooms.csv')
         label = LabelEncoder()
         for col in data.columns:
             data[col] = label.fit_transform(data[col])
         return data
         
- df = load_data()
-    class_names = ['edible', 'poisonous']
+df = load_data()
+class_names = ['edible', 'poisonous']
 
-    x_train, x_test, y_train, y_test = split(df)
+x_train, x_test, y_train, y_test = split(df)
 
-       @st.cache(persist=True)
-    def split(df):
+#       @st.cache(persist=True)
+def split(df):
         y = df.type
         x = df.drop(columns =['type'])
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
@@ -42,25 +43,25 @@ if __name__ == '__main__':
       
       
       
-       def plot_metrics(metrics_list):
-        if 'Confusion Matrix' in metrics_list:
-            st.subheader("Confusion Matrix") 
-            plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
-            st.pyplot()
+        def plot_metrics(metrics_list):
+            if 'Confusion Matrix' in metrics_list:
+              st.subheader("Confusion Matrix") 
+              plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
+              st.pyplot()
         
-        if 'ROC Curve' in metrics_list:
-            st.subheader("ROC Curve") 
-            plot_roc_curve(model, x_test, y_test)
-            st.pyplot()
+            if 'ROC Curve' in metrics_list:
+              st.subheader("ROC Curve") 
+              plot_roc_curve(model, x_test, y_test)
+              st.pyplot()
 
-        if 'Precision-Recall Curve' in metrics_list:
-            st.subheader("Precision-Recall Curve")
-            plot_precision_recall_curve(model, x_test, y_test)
-            st.pyplot()
+            if 'Precision-Recall Curve' in metrics_list:
+              st.subheader("Precision-Recall Curve")
+              plot_precision_recall_curve(model, x_test, y_test)
+              st.pyplot()
             
             
-                if classifier == 'Support Vector Machine (SVM)':
-        st.sidebar.subheader("Model Hyperparameters")
+        if classifier == 'Support Vector Machine (SVM)':
+          st.sidebar.subheader("Model Hyperparameters")
         C = st.sidebar.number_input("C (Regularizaion parameter)", 0.01, 10.0, step=0.01, key='C')
         kernel = st.sidebar.radio("Kernel",("rbf", "linear"), key='kernel')
         gamma = st.sidebar.radio("Gamma (Kernel Coefficient", ("scale", "auto"), key = 'gamma')
@@ -79,11 +80,11 @@ if __name__ == '__main__':
             plot_metrics(metrics)
 
             
-               if classifier == 'Logistic Regression':
-        st.sidebar.subheader("Model Hyperparameters")
-        C = st.sidebar.number_input("C (Regularizaion parameter)", 0.01, 10.0, step=0.01, key='C_LR')
-        max_iter = st.sidebar.slider("Maxiumum number of interations", 100, 500, key='max_iter')
-        metrics = st.sidebar.multiselect("What metrics to plot?",('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
+        if classifier == 'Logistic Regression':
+           st.sidebar.subheader("Model Hyperparameters")
+           C = st.sidebar.number_input("C (Regularizaion parameter)", 0.01, 10.0, step=0.01, key='C_LR')
+           max_iter = st.sidebar.slider("Maxiumum number of interations", 100, 500, key='max_iter')
+           metrics = st.sidebar.multiselect("What metrics to plot?",('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
 
         if st.sidebar.button("Classfiy", key='classify'):
             st.subheader("Logistic Regression Results")
@@ -98,8 +99,8 @@ if __name__ == '__main__':
             
             
             
-    if classifier == 'Random Forest':
-        st.sidebar.subheader("Model Hyperparameters")
+        if classifier == 'Random Forest':
+           st.sidebar.subheader("Model Hyperparameters")
         n_estimators  = st.sidebar.number_input("The number of trees in the forest", 100, 5000, step=10, key='n_estimators')
         max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 20, step=1, key='max_depth')
         bootstrap = st.sidebar.radio("Bootstrap samples when building trees", ('True','False'), key='bootstrap')
